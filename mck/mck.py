@@ -20,7 +20,7 @@ def parse_instances():
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--destroy", action="store_true")
+    parser.add_argument("--destroy", "--cleanup", action="store_true")
     args = parser.parse_args()
 
     if "TF_VAR_do_token" not in os.environ:
