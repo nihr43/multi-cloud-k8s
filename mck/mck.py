@@ -18,7 +18,7 @@ def parse_instances():
     result = subprocess.run(["tofu", "show", "-json"], check=True, capture_output=True)
     state = json.loads(result.stdout)
     for i in state["values"]["root_module"]["resources"]:
-        if i["address"] in "digitalocean_droplet.instance":
+        if "digitalocean_droplet" in i["address"]:
             inst = Instance(
                 i["values"]["name"], "digitalocean", i["values"]["ipv4_address"]
             )
@@ -40,4 +40,8 @@ def main():
         run_cmd("tofu apply")
         instances = parse_instances()
         for i in instances:
-            print("instance {} is provisioned on {}".format(i.name, i.provider))
+            print(
+                "instance {} is provisioned on {} with address {}".format(
+                    i.name, i.provider, i.ipv4
+                )
+            )
