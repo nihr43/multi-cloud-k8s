@@ -1,5 +1,4 @@
-build: lint
-	tofu apply
-
 lint:
 	tofu fmt
+	black .
+	flake8 mck/*.py
