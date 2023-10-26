@@ -3,16 +3,10 @@ import subprocess
 import os
 
 
-def tofu_apply():
-    cmd = "tofu apply"
+def run_cmd(cmd):
     err = subprocess.call(cmd, shell=True)
-    print("returned value:", err)
-
-
-def tofu_destroy():
-    cmd = "tofu destroy"
-    err = subprocess.call(cmd, shell=True)
-    print("returned value:", err)
+    if err != 0:
+        raise RuntimeError("command `{}` failed".format(cmd))
 
 
 def main():
@@ -24,6 +18,6 @@ def main():
         raise ValueError("Environment variable TF_VAR_do_token required")
 
     if args.destroy:
-        tofu_destroy()
+        run_cmd("tofu destroy")
     else:
-        tofu_apply()
+        run_cmd("tofu apply")
