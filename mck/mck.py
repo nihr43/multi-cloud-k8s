@@ -3,6 +3,8 @@ import subprocess
 import os
 import json
 
+from models import Instance
+
 
 def run_cmd(cmd):
     err = subprocess.call(cmd, shell=True)
@@ -11,11 +13,17 @@ def run_cmd(cmd):
 
 
 def parse_instances():
+    # inspects tfstate, returns list of Instances
+    instances = []
     result = subprocess.run(["tofu", "show", "-json"], check=True, capture_output=True)
     state = json.loads(result.stdout)
     for i in state["values"]["root_module"]["resources"]:
         if i["address"] in "digitalocean_droplet.instance":
-            print(i["values"]["ipv4_address"])
+            inst = Instance(
+                i["values"]["name"], "digitalocean", i["values"]["ipv4_address"]
+            )
+            instances.append(inst)
+    return instances
 
 
 def main():
@@ -30,4 +38,6 @@ def main():
         run_cmd("tofu destroy")
     else:
         run_cmd("tofu apply")
-        parse_instances()
+        instances = parse_instances()
+        for i in instances:
+            print("instance {} is provisioned on {}".format(i.name, i.provider))
