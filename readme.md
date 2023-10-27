@@ -9,61 +9,31 @@ This is done by wrapping opentofu (formerly terraform) and ansible in python, en
 The default action is to enforce state:
 
 ```
-$ export TF_VAR_do_token=asdf1234
+$ export TF_VAR_do_token=
+$ export TF_VAR_linode_token=
+# export TF_VAR_aws_access=
+$ export TF_VAR_aws_secret=
 $ python3 mck
+digitalocean_ssh_key.default: Refreshing state... [id=39804368]
+linode_sshkey.default: Refreshing state...
+linode_instance.instance[0]: Refreshing state... [id=51324518]
+digitalocean_droplet.instance[0]: Refreshing state... [id=381834671]
+data.aws_ami.ubuntu: Reading...
+aws_key_pair.default: Refreshing state... [id=opentofu]
+aws_default_subnet.default_az1: Refreshing state... [id=subnet-046b3f303365c3333]
+aws_default_vpc.mainvpc: Refreshing state... [id=vpc-0371ba1712735e722]
+data.aws_ami.ubuntu: Read complete after 1s [id=ami-08e2c1a8d17c2fe17]
+aws_default_security_group.default: Refreshing state... [id=sg-06d079c63124325e2]
+aws_instance.instance[0]: Refreshing state... [id=i-0d8123a6659382ff6]
 
-OpenTofu used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
-  + create
+No changes. Your infrastructure matches the configuration.
 
-OpenTofu will perform the following actions:
+OpenTofu has compared your real infrastructure against your configuration and found no differences, so no changes are needed.
 
-  # digitalocean_droplet.instance will be created
-  + resource "digitalocean_droplet" "instance" {
-      + backups              = false
-      + created_at           = (known after apply)
-      + disk                 = (known after apply)
-      + graceful_shutdown    = false
-      + id                   = (known after apply)
-      + image                = "debian-12-x64"
-      + ipv4_address         = (known after apply)
-      + ipv4_address_private = (known after apply)
-      + ipv6                 = false
-      + ipv6_address         = (known after apply)
-      + locked               = (known after apply)
-      + memory               = (known after apply)
-      + monitoring           = false
-      + name                 = "test"
-      + price_hourly         = (known after apply)
-      + price_monthly        = (known after apply)
-      + private_networking   = (known after apply)
-      + region               = "nyc1"
-      + resize_disk          = true
-      + size                 = "s-1vcpu-1gb"
-      + ssh_keys             = (known after apply)
-      + status               = (known after apply)
-      + urn                  = (known after apply)
-      + vcpus                = (known after apply)
-      + volume_ids           = (known after apply)
-      + vpc_uuid             = (known after apply)
-    }
-
-  # digitalocean_ssh_key.default will be created
-  + resource "digitalocean_ssh_key" "default" {
-      + fingerprint = (known after apply)
-      + id          = (known after apply)
-      + name        = "opentofu"
-      + public_key  = <<-EOT
-            ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKL+1xp+nQIbu02D1NmU+4RTPGblUML21TSzF/Pxg5GM
-        EOT
-    }
-
-Plan: 2 to add, 0 to change, 0 to destroy.
-
-Do you want to perform these actions?
-  OpenTofu will perform the actions described above.
-  Only 'yes' will be accepted to approve.
-
-  Enter a value:
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+instance mck-k8s-aws-0 is provisioned on aws with address 18.236.105.125
+instance mck-k8s-do-0 is provisioned on digitalocean with address 159.89.224.39
+instance mck-k8s-linode-0 is provisioned on linode with address 172.233.209.96
 ```
 
 `--destroy` will remove all resources:

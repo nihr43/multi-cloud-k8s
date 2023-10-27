@@ -28,6 +28,9 @@ def parse_instances():
         elif "linode_instance" in i["address"]:
             inst = Instance(i["values"]["label"], "linode", i["values"]["ip_address"])
             instances.append(inst)
+        elif "aws_instance" in i["address"]:
+            inst = Instance(i["values"]["tags"]["Name"], "aws", i["values"]["public_ip"])
+            instances.append(inst)
     return instances
 
 
