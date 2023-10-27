@@ -4,16 +4,7 @@
       delay: 10
       timeout: 300
 
-  - name: apt update
-    ansible.builtin.raw: apt update
-    changed_when: false
-
-  - name: apt upgrade
-    ansible.builtin.raw: DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" dist-upgrade -y
-    register: upgrade_result
-    changed_when: "'packages will be upgraded' in upgrade_result.stdout"
-
-  - name: apt autoremove --purge
-    ansible.builtin.raw: apt autoremove --purge -y
-    register: autoremove_result
-    changed_when: "'0 to remove' not in autoremove_result.stdout"
+- name: apt update
+  ansible.builtin.apt:
+    update_cache: true
+    lock_timeout: 120
