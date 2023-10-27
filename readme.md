@@ -1,8 +1,10 @@
 # multi-cloud-k8s
 
-This is an exercise in provisioning a kubernetes cluster across multiple cloud providers for the ultimate in infrastructure resiliency.  Whether such an endeavor is worthwhile IRL is up for debate; this was done for fun.
+This is an exercise in provisioning a kubernetes cluster across multiple cloud providers.  Whether such an endeavor is worthwhile IRL is up for debate; this was done for fun.
 
-This is done by wrapping opentofu (formerly terraform) and ansible in python, enabling a single commandline entrypoint for various CRUD tasks.
+This is done by wrapping opentofu (formerly terraform) and ansible in python, enabling a single commandline entrypoint for various CRUD tasks.  There is zero manual work other than initial API token setup for each provider.
+
+Wrapping opentofu rather than using client libraries directly gives us a well-proven means of provisioning base resources, as well as a well understood user interface - the cluster is described in `intances.tf`.
 
 ## usage
 
