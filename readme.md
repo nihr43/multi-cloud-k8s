@@ -1,6 +1,6 @@
 # multi-cloud-k8s
 
-This is an exercise in provisioning a kubernetes cluster across multiple cloud providers for the ultimate in infrastructure resiliency.  Whether such an endeavor is worthwhile IRL is up for dabate; this was done for fun.
+This is an exercise in provisioning a kubernetes cluster across multiple cloud providers for the ultimate in infrastructure resiliency.  Whether such an endeavor is worthwhile IRL is up for debate; this was done for fun.
 
 This is done by wrapping opentofu (formerly terraform) and ansible in python, enabling a single commandline entrypoint for various CRUD tasks.
 
@@ -69,5 +69,5 @@ Do you want to perform these actions?
 `--destroy` will remove all resources:
 
 ```
-$ python2 mck --destroy
+$ python3 mck --destroy
 ```
