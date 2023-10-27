@@ -8,3 +8,8 @@
   ansible.builtin.apt:
     update_cache: true
     lock_timeout: 120
+
+- name: set hostname
+  copy:
+    content: "{{ name }}"
+    dest: /etc/hostname

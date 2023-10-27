@@ -1,3 +1,3 @@
 [common]
-{% for i in instances %}{{i.ipv4}} ansible_ssh_user={{i.username}} ansible_become=true microk8s_channel=1.28
+{% for i in instances %}{{i.ipv4}} name={{i.name}} ansible_ssh_user={{i.username}} ansible_become=true microk8s_channel=1.28
 {% endfor %}
