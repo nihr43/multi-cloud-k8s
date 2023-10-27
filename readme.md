@@ -6,6 +6,8 @@ This is done by wrapping opentofu (formerly terraform) and ansible in python, en
 
 Wrapping opentofu rather than using client libraries directly gives us a well-proven means of provisioning base resources, as well as a well understood user interface - the cluster is described in `intances.tf`.
 
+Once compute resources are provisioned, the tf state is examined and an ansible inventory is generated.  Base software installation is then performed with `ansible_runner`.
+
 ## usage
 
 The default action is to enforce state:
