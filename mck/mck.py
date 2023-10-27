@@ -15,13 +15,18 @@ def run_cmd(cmd):
 def parse_instances():
     # inspects tfstate, returns list of Instances
     instances = []
-    result = subprocess.run(["tofu", "show", "-json"], check=True, capture_output=True)
-    state = json.loads(result.stdout)
+    tofushow = subprocess.run(
+        ["tofu", "show", "-json"], check=True, capture_output=True
+    )
+    state = json.loads(tofushow.stdout)
     for i in state["values"]["root_module"]["resources"]:
         if "digitalocean_droplet" in i["address"]:
             inst = Instance(
                 i["values"]["name"], "digitalocean", i["values"]["ipv4_address"]
             )
+            instances.append(inst)
+        elif "linode_instance" in i["address"]:
+            inst = Instance(i["values"]["label"], "linode", i["values"]["ip_address"])
             instances.append(inst)
     return instances
 
