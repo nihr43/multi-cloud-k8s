@@ -17,7 +17,7 @@ resource "linode_instance" "instance" {
 }
 
 resource "aws_instance" "instance" {
-  ami                    = data.aws_ami.ubuntu.id
+  ami                    = data.aws_ami.image.id
   instance_type          = "t1.micro"
   key_name               = "opentofu"
   vpc_security_group_ids = [aws_default_security_group.default.id]

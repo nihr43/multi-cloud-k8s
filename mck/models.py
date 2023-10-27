@@ -3,3 +3,8 @@ class Instance:
         self.name = name
         self.provider = provider
         self.ipv4 = ipv4
+
+        if self.provider == "aws":
+            self.username = "admin"
+        else:
+            self.username = "root"

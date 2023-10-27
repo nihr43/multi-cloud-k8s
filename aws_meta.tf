@@ -1,9 +1,9 @@
-data "aws_ami" "ubuntu" {
+data "aws_ami" "image" {
   most_recent = true
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["debian-12-amd64-*"]
   }
 
   filter {
@@ -11,7 +11,7 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 
-  owners = ["099720109477"] # Canonical
+  owners = ["136693071363"] # account id from https://wiki.debian.org/Cloud/AmazonEC2Image/Bookworm
 }
 
 resource "aws_default_subnet" "default_az1" {
