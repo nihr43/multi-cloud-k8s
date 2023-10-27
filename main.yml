@@ -1,0 +1,6 @@
+---
+
+- hosts: common
+  roles:
+   - common
+   - microk8s-ansible
