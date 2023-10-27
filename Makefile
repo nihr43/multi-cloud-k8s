@@ -1,7 +1,8 @@
-lint: mod_update
+lint:
 	tofu fmt
-	black .
+	black mck
 	flake8 mck --ignore E501
+	find . -name '*.yml' | xargs yamllint
 
 mod_update:
 	git submodule update --recursive --remote
