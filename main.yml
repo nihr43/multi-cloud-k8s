@@ -1,6 +1,10 @@
 ---
 
 - hosts: common
+  gather_facts: false
   roles:
    - common
+
+- hosts: common
+  roles:
    - microk8s-ansible

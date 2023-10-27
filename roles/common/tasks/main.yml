@@ -1,8 +1,8 @@
 ---
-  - name: wait for connection
-    ansible.builtin.wait_for_connection:
-      delay: 10
-      timeout: 300
+- name: wait for connection
+  ansible.builtin.wait_for_connection:
+    delay: 10
+    timeout: 300
 
 - name: apt update
   ansible.builtin.apt:
