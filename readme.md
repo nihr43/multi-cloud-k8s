@@ -129,3 +129,5 @@ Waiting for this node to finish joining the cluster. .. .. .. ..
 ## todo
 
 Enable calico's built-in wireguard capability for inter-node encryption.
+
+Resolve issues with aws nat.  microk8s expects public ip to be locally bound.

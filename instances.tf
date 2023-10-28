@@ -4,7 +4,7 @@ resource "digitalocean_droplet" "instance" {
   region   = "nyc1"
   size     = "s-1vcpu-2gb"
   ssh_keys = [digitalocean_ssh_key.default.fingerprint]
-  count    = 1
+  count    = 2
 }
 
 resource "linode_instance" "instance" {
@@ -13,7 +13,7 @@ resource "linode_instance" "instance" {
   region          = "us-ord"
   type            = "g6-standard-1"
   authorized_keys = [linode_sshkey.default.ssh_key]
-  count           = 1
+  count           = 2
 }
 
 resource "aws_instance" "instance" {
@@ -21,7 +21,7 @@ resource "aws_instance" "instance" {
   instance_type          = "t2.small"
   key_name               = "opentofu"
   vpc_security_group_ids = [aws_default_security_group.default.id]
-  count                  = 1
+  count                  = 0
   tags = {
     Name = "mck-k8s-aws-${count.index}"
   }
