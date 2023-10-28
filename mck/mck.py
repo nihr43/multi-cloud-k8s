@@ -56,6 +56,22 @@ def configure(instances):
     print("ansible-playbook main.yml -i inventory")
 
 
+def reconcile_cluster(instances):
+    # takes a list of Instances and ensures all have joined cluster
+    for i in instances:
+        i.get_peers()
+
+    instances.sort(key=lambda x: len(x.peers), reverse=True)
+    initiator = instances[0]
+
+    # we've picked the node with the most peers as the initiator.
+    # if the initiator itself has no peers, it must be that no cluster exists.
+    if len(initiator.peers) == 1:
+        print("leader is {}".format(initiator.name))
+        for i in instances[1:]:
+            print("{} will join {}".format(i.name, initiator.name))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--destroy", "--cleanup", action="store_true")
