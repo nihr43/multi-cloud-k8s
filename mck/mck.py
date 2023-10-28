@@ -59,6 +59,7 @@ def configure(instances):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--destroy", "--cleanup", action="store_true")
+    parser.add_argument("--skip-config", action="store_true")
     args = parser.parse_args()
 
     if "TF_VAR_do_token" not in os.environ:
@@ -76,4 +77,6 @@ def main():
                 )
             )
 
-        configure(instances)
+        if not args.skip_config:
+            configure(instances)
+        reconcile_cluster(instances)
