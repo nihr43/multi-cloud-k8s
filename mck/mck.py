@@ -82,9 +82,9 @@ def main():
         raise ValueError("Environment variable TF_VAR_do_token required")
 
     if args.destroy:
-        run_cmd("tofu destroy")
+        run_cmd("tofu destroy --auto-approve")
     else:
-        run_cmd("tofu apply")
+        run_cmd("tofu apply --auto-approve")
         instances = parse_instances()
         for i in instances:
             print(
