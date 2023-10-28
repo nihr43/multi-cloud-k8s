@@ -13,3 +13,4 @@
   copy:
     content: "{{ name }}"
     dest: /etc/hostname
+  notify: reboot
