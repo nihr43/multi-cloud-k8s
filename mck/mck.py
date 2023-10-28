@@ -66,10 +66,19 @@ def reconcile_cluster(instances):
 
     # we've picked the node with the most peers as the initiator.
     # if the initiator itself has no peers, it must be that no cluster exists.
+    # ( localhost counts as 1 peer )
     if len(initiator.peers) == 1:
         print("leader is {}".format(initiator.name))
         for i in instances[1:]:
             print("{} will join {}".format(i.name, initiator.name))
+            i.join(initiator)
+    else:
+        # handle the case that a cluster exists but there are unjoined (new) instances
+        print("existing cluster found with candidate leader {}".format(initiator.name))
+        for i in instances:
+            if len(i.peers) == 1:
+                print("orphan node {} will join {}".format(i.name, initiator.name))
+                i.join(initiator)
 
 
 def main():

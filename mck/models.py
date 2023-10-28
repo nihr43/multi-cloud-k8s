@@ -20,3 +20,17 @@ class Instance:
         status_parsed = yaml.safe_load(status.stdout)
         for n in status_parsed["high-availability"]["nodes"]:
             self.peers.append(n)
+
+    def join_token(self):
+        conn = Connection(host=self.ipv4, user=self.username)
+        jointoken = conn.sudo(
+            "/snap/bin/microk8s add-node --format token-check", hide=True
+        )
+        return jointoken.stdout
+
+    def join(self, initiator):
+        conn = Connection(host=self.ipv4, user=self.username)
+        cmd = "/snap/bin/microk8s join {}:25000/{}".format(
+            initiator.ipv4, initiator.join_token()
+        )
+        conn.sudo(cmd)
