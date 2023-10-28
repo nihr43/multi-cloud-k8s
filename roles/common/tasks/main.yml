@@ -9,6 +9,12 @@
     update_cache: true
     lock_timeout: 120
 
+- name: configure hosts
+  ansible.builtin.template:
+    src: hosts
+    dest: /etc/hosts
+    mode: 0644
+
 - name: set hostname
   copy:
     content: "{{ name }}"
