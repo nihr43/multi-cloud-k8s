@@ -28,9 +28,9 @@ class Instance:
         )
         return jointoken.stdout
 
-    def join(self, initiator):
+    def join(self, leader):
         conn = Connection(host=self.ipv4, user=self.username)
         cmd = "/snap/bin/microk8s join {}:25000/{}".format(
-            initiator.ipv4, initiator.join_token()
+            leader.ipv4, leader.join_token()
         )
         conn.sudo(cmd)
