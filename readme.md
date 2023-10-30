@@ -126,6 +126,8 @@ Contacting cluster at 206.189.192.42
 Waiting for this node to finish joining the cluster. .. .. .. ..
 ```
 
+Why not use the terraform provisioner feature?  Rather than having tofu configure nodes in isolation, waiting until all the nodes have been provisioned lets us genereate a full inventory file.  The tool spits out a command hint `ansible-playbook main.yml -i inventory`, which we're free to use directly if we ever want to make small changes without reprovisioning the cluster.  We're also templating `/etc/hosts` with ansible, which needs to be updated whenever the infrastructure changes.
+
 ## todo
 
 Enable calico's built-in wireguard capability for inter-node encryption.
