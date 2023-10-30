@@ -95,6 +95,55 @@ mck-k8s-do-0       Ready    <none>   38m   v1.28.2
 mck-k8s-linode-2   Ready    <none>   19s   v1.28.2
 ```
 
+The design of mck allows for some interesting day-2 operations.  For example, upgrading a node from debian 11 to debian 12 is as simple as incrementing the image version in `instances.tf` and re-running the tool:
+
+```
+~/git/multi-cloud-k8s$ git diff instances.tf 
+diff --git a/instances.tf b/instances.tf
+index 61b49bf..c744f8a 100644
+--- a/instances.tf
++++ b/instances.tf
+@@ -1,10 +1,10 @@
+ resource "digitalocean_droplet" "instance" {
+-  image    = "debian-11-x64"
++  image    = "debian-12-x64"
+   name     = "mck-k8s-do-${count.index}"
+   region   = "nyc1"
+   size     = "s-1vcpu-2gb"
+   ssh_keys = [digitalocean_ssh_key.default.fingerprint]
+   count    = 1
+ }
+```
+
+This results in the node being replaced, the old identity being purged from k8s, and the new node joined:
+
+```
+~/git/multi-cloud-k8s$ python3 mck
+( output truncated )
+
+OpenTofu will perform the following actions:
+
+  # digitalocean_droplet.instance[0] must be replaced
+
+( output truncated )
+
+      ~ image                = "debian-11-x64" -> "debian-12-x64" # forces replacement
+
+( output truncated )
+
+PLAY RECAP *********************************************************************
+172.233.214.203            : ok=12   changed=1    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0   
+172.234.19.232             : ok=12   changed=1    unreachable=0    failed=0    skipped=4    rescued=0    ignored=0   
+192.241.145.176            : ok=14   changed=11   unreachable=0    failed=0    skipped=4    rescued=0    ignored=0   
+environment created.  follow-up configuration can be performed with:
+ansible-playbook main.yml -i inventory
+existing cluster found with candidate leader mck-k8s-linode-0
+force removing missing node 67.205.142.0
+new node mck-k8s-do-0 will join mck-k8s-linode-0
+Contacting cluster at 172.234.19.232
+Waiting for this node to finish joining the cluster. .. .. .. ..
+```
+
 `--destroy` will remove all resources:
 
 ```

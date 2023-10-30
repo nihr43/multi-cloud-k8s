@@ -75,9 +75,10 @@ def reconcile_cluster(instances):
     else:
         # handle the case that a cluster exists but there are unjoined (new) instances
         print("existing cluster found with candidate leader {}".format(leader.name))
+        leader.prune_orphaned_peers(instances)
         for i in instances:
             if len(i.peers) == 1:
-                print("orphan node {} will join {}".format(i.name, leader.name))
+                print("new node {} will join {}".format(i.name, leader.name))
                 i.join(leader)
 
 
